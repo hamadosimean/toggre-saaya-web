@@ -1,13 +1,12 @@
 import React from "react";
 import Hero from "../components/ui/Hero";
-import Login from "./Login";
+import { LiquidGlass } from "@liquidglass/react";
+
 function Home() {
   return (
     <div>
+      {/* Hero Section */}
       <Hero />
-      <Login />
-      <h1>Home Page</h1>
-      <p>Welcome to the home page!</p>
     </div>
   );
 }
