@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Edit, LogOut } from "lucide-react";
 function UserProfileCard({ onLogout, user }) {
   return (
     <div className="max-w-sm w-full bg-white shadow-lg rounded-lg p-6 border border-blue-100">
@@ -20,12 +20,16 @@ function UserProfileCard({ onLogout, user }) {
       <div className="mt-6 flex justify-end space-x-4">
         <button
           onClick={onLogout}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition cursor-pointer"
+          title="Déconnexion"
         >
-          Logout
+          <LogOut size={20} />
         </button>
-        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
-          Edit Profile
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition cursor-pointer"
+          title="Modifier le profil"
+        >
+          <Edit size={20} />
         </button>
       </div>
     </div>

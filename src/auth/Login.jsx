@@ -80,7 +80,7 @@ function Login() {
       )}
 
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Connexion</h2>
 
         <form onSubmit={handleLogin}>
           {/* Username */}
@@ -89,7 +89,7 @@ function Login() {
               htmlFor="username"
               className="block text-sm font-medium mb-2"
             >
-              Username
+              Nom d'utilisateur
             </label>
             <input
               type="text"
@@ -107,7 +107,7 @@ function Login() {
               htmlFor="password"
               className="block text-sm font-medium mb-2"
             >
-              Password
+              Mot de passe
             </label>
             <input
               type={showPassword ? "text" : "password"}
@@ -137,7 +137,7 @@ function Login() {
               className="accent-blue-600"
             />
             <label htmlFor="rememberMe" className="text-sm">
-              Remember Me
+              Se souvenir de moi
             </label>
           </div>
 
@@ -147,7 +147,7 @@ function Login() {
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!username || !password}
           >
-            Login
+            Connexion
           </button>
         </form>
       </div>

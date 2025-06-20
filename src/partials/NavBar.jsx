@@ -19,11 +19,11 @@ function NavBar() {
   const toggleProfile = () => setShowProfile((prev) => !prev);
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
+    { name: "Acceuil", path: "/" },
+    { name: "À propos", path: "/about" },
     { name: "Contact", path: "/contact" },
-    isAuthenticated && { name: "Dashboard", path: "/dashboard" },
-    !isAuthenticated && { name: "Login", path: "/login" },
+    isAuthenticated && { name: "Tableau de bord", path: "/dashboard" },
+    !isAuthenticated && { name: "Connexion", path: "/login" },
   ].filter(Boolean); // Remove null/false entries
 
   return (

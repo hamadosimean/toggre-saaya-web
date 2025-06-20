@@ -25,7 +25,7 @@ function About() {
           </p>
 
           <p className="text-md text-gray-500 mt-6 italic">
-            « Fini les longues queues, vive les démarches intelligentes. »
+            {/* « Fini les longues queues, vive les démarches intelligentes. » */}
           </p>
         </div>
 

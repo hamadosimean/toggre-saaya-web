@@ -1,13 +1,20 @@
 import React from "react";
 import { Link } from "react-router";
-
+import logoImage from "../assets/logo_toogre_sayaa.png";
 const Footer = () => {
   return (
     <footer className="bg-blue-900 text-white mt-16">
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Brand Info */}
         <div>
-          <h2 className="text-2xl font-bold">Toggre-Saaya</h2>
+          {/* <h2 className="text-2xl font-bold">Toggre-Saaya</h2> */}
+          <div>
+            <img
+              src={logoImage}
+              alt="Toggre-Saaya Logo"
+              className="mt-4 size-12"
+            />
+          </div>
           <p className="mt-4 text-sm text-gray-300">
             Simplifiez vos files d'attente dans les services publics grâce à
             notre système de réservation numérique.
@@ -45,8 +52,9 @@ const Footer = () => {
         <div>
           <h3 className="text-xl font-semibold mb-4">Contact</h3>
           <p className="text-sm text-gray-300">
-            support@toggre-saaya.bf <br />
-            (+226) 70 00 00 00
+            contact.techarea@gmail.com
+            <br />
+            (+226) 55674512/79143616/73439675
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import authConfig from "./auth";
+import authConfig from "./authConfig";
 
 const API = axios.create({
   baseURL: authConfig.BASE_URL,

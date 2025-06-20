@@ -57,14 +57,13 @@ function Contact() {
             {/* Dummy Contact Details */}
             <div className="mb-8 text-sm text-gray-600 space-y-2">
               <p>
-                <strong>Email :</strong> support@toggre-saaya.bf
+                <strong>Email :</strong> contact.techarea@gmail.com
               </p>
               <p>
                 <strong>Téléphone :</strong> +226 73439675 / 55674512 / 79143616
               </p>
               <p>
-                <strong>Adresse :</strong> 123, Avenue de la Réduction des
-                Files, Ouagadougou
+                <strong>Adresse :</strong> Dassasgho
               </p>
             </div>
 
