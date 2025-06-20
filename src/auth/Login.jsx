@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { Eye, EyeOff } from "lucide-react";
 import userApi from "../services/user";
 import PopUp from "../components/ui/PopUp";
@@ -38,39 +38,31 @@ function Login() {
       const response = await userApi.login(username, password);
       const authToken = response.data.auth_token;
 
-      // Save token depending on rememberMe
+      localStorage.removeItem("auth_token");
+      sessionStorage.removeItem("auth_token");
+
       if (rememberMe) {
         localStorage.setItem("auth_token", authToken);
       } else {
         sessionStorage.setItem("auth_token", authToken);
       }
 
-      // Update context state
       login(authToken);
-
-      // Redirect to dashboard
       navigate("/dashboard", { replace: true });
     } catch (err) {
       const message =
         err?.response?.data?.non_field_errors?.[0] ||
         err?.message ||
-        "An error occurred during login.";
+        "Une erreur est survenue pendant la connexion.";
       setError(message);
       setShowPopUp(true);
     }
   };
 
-  // console.log("isAuthenticated:", isAuthenticated);
-  // console.log("token:", localStorage.getItem("auth_token"));
-  // console.log("loading:", loading);
-
-  // Optional loading UI
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 sm:px-6">
       {showPopUp && (
         <PopUp
           message={error}
@@ -79,42 +71,46 @@ function Login() {
         />
       )}
 
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-6 text-center">Connexion</h2>
+      <div className="bg-white w-full max-w-sm sm:max-w-md p-6 sm:p-8 rounded-xl shadow-md">
+        <h2 className="text-center text-2xl font-bold text-blue-700 mb-6">
+          Connexion
+        </h2>
 
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} autoComplete="on" className="space-y-5">
           {/* Username */}
-          <div className="mb-4">
+          <div>
             <label
               htmlFor="username"
-              className="block text-sm font-medium mb-2"
+              className="block text-sm font-medium mb-1"
             >
               Nom d'utilisateur
             </label>
             <input
               type="text"
               id="username"
+              autoComplete="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           {/* Password */}
-          <div className="mb-4 relative">
+          <div className="relative">
             <label
               htmlFor="password"
-              className="block text-sm font-medium mb-2"
+              className="block text-sm font-medium mb-1"
             >
               Mot de passe
             </label>
             <input
               type={showPassword ? "text" : "password"}
               id="password"
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
             <button
@@ -127,8 +123,18 @@ function Login() {
             </button>
           </div>
 
+          {/* Forgot Password */}
+          <div className="text-right text-sm">
+            <Link
+              to="/forgot-password"
+              className="text-blue-600 hover:underline"
+            >
+              Mot de passe oublié ?
+            </Link>
+          </div>
+
           {/* Remember Me */}
-          <div className="mb-6 flex items-center space-x-2">
+          <div className="flex items-center space-x-2">
             <input
               type="checkbox"
               id="rememberMe"
@@ -144,7 +150,7 @@ function Login() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 disabled:opacity-50"
             disabled={!username || !password}
           >
             Connexion
