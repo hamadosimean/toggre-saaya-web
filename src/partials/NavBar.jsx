@@ -97,13 +97,16 @@ function NavBar() {
             <ul className="flex flex-col space-y-3 text-gray-700 font-medium">
               {navLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
+                  <NavLink
                     to={link.path}
                     className="block hover:text-blue-600 transition duration-300"
+                    style={({ isActive }) =>
+                      isActive ? { ...navBarActiveStyle } : undefined
+                    }
                     onClick={() => setIsMobileOpen(false)}
                   >
                     {link.name}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
