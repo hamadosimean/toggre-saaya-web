@@ -101,7 +101,7 @@ function NavBar() {
                     to={link.path}
                     className="block hover:text-blue-600 transition duration-300"
                     style={({ isActive }) =>
-                      isActive ? { ...navBarActiveStyle } : undefined
+                      isActive ? { color: "blue" } : undefined
                     }
                     onClick={() => setIsMobileOpen(false)}
                   >
