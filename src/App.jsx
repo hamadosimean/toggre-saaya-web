@@ -13,9 +13,14 @@ import Login from "./auth/Login";
 import Queue from "./pages/Queue";
 import Company from "./pages/Company";
 import Service from "./pages/Service";
-
+import Statistics from "./pages/Statistics";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Action from "./pages/Action";
+import Display from "./pages/Display";
+import Settings from "./pages/Settings";
+
+// main app
 function App() {
   return (
     <>
@@ -35,7 +40,11 @@ function App() {
               </ProtectedRoute>
             }
           >
+            <Route index element={<Statistics />} />"
             <Route path="company" element={<Company />} />
+            <Route path="action" element={<Action />} />
+            <Route path="display" element={<Display />} />
+            <Route path="settings" element={<Settings />} />
             <Route path="service" element={<Service />} />
             <Route path="queue" element={<Queue />} />
           </Route>

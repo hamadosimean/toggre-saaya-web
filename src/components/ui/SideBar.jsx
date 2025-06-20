@@ -53,9 +53,9 @@ function SideBar({ navItems = [] }) {
 
         {/* Navigation */}
         <nav className="mt-4">
-          <ul className="space-y-1">
+          <ul className="space-y-6">
             {navItems.map((item) => (
-              <li key={item.path} className="group relative">
+              <li key={item.path} className="relative">
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
@@ -66,6 +66,7 @@ function SideBar({ navItems = [] }) {
                       }
                     `
                   }
+                  title={collapsed && item.label}
                 >
                   <div className="text-white">{item.icon}</div>
                   {!collapsed && <span>{item.label}</span>}
