@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { NavLink, Link } from "react-router";
 import { Outlet } from "react-router";
 import logo from "../assets/logo_toogre_sayaa.png";
 import { MenuIcon, X } from "lucide-react";
@@ -17,6 +17,10 @@ function NavBar() {
 
   const toggleMobileMenu = () => setIsMobileOpen((prev) => !prev);
   const toggleProfile = () => setShowProfile((prev) => !prev);
+  const navBarActiveStyle = {
+    color: "blue",
+    borderBottom: "2px solid blue",
+  };
 
   const navLinks = [
     { name: "Acceuil", path: "/" },
@@ -47,12 +51,16 @@ function NavBar() {
             <ul className="flex space-x-6 items-center">
               {navLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
+                  <NavLink
                     to={link.path}
                     className="hover:text-blue-600 transition duration-300"
+                    style={({ isActive }) =>
+                      isActive ? { ...navBarActiveStyle } : undefined
+                    }
+                    onClick={() => setIsMobileOpen(false)}
                   >
                     {link.name}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
