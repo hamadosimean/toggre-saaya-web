@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { PanelLeftOpen, PanelRightOpen } from "lucide-react";
 
 function SideBar({ navItems = [] }) {
   const [collapsed, setCollapsed] = useState(() => {
@@ -35,16 +35,20 @@ function SideBar({ navItems = [] }) {
     >
       {/* Top section with toggle */}
       <div>
-        <div className="flex items-center justify-between p-4">
+        <div className="flex flex-col  justify-between p-4">
           <button
             onClick={toggleSidebar}
             className="text-white hover:text-gray-200"
           >
-            {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+            {collapsed ? (
+              <PanelRightOpen className="size-6" />
+            ) : (
+              <PanelLeftOpen className="size-6" />
+            )}
           </button>
-          {!collapsed && (
-            <span className="font-bold text-lg">Toggre Saaya</span>
-          )}
+          {/* {!collapsed && (
+            <h1 className="font-bold text-2xl md:text-3xl">Toggre Saaya</h1>
+          )} */}
         </div>
 
         {/* Navigation */}

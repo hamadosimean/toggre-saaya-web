@@ -10,16 +10,35 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const savedToken = localStorage.getItem("auth_token");
-    if (savedToken) setToken(savedToken);
-    async function fetchUser() {
+    const savedToken =
+      localStorage.getItem("auth_token") ||
+      sessionStorage.getItem("auth_token");
+
+    const initAuth = async () => {
       if (savedToken) {
-        const response = await userApi.getUser(savedToken);
-        setUser(response.data);
+        setToken(savedToken);
+
+        try {
+          const response = await userApi.getUser(savedToken);
+          setUser(response.data);
+        } catch (error) {
+          console.error("Invalid token:", error);
+          localStorage.removeItem("auth_token");
+          sessionStorage.removeItem("auth_token");
+          setToken(null);
+          setUser(null);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
       }
-    }
-    fetchUser();
+    };
+
+    initAuth();
   }, []);
 
   const login = (newToken) => {
@@ -33,11 +52,11 @@ export const AuthProvider = ({ children }) => {
     navigate("/login");
   };
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = Boolean(token);
 
   return (
     <AuthContext.Provider
-      value={{ token, user, isAuthenticated, login, logout }}
+      value={{ token, user, isAuthenticated, login, logout, loading }}
     >
       {children}
     </AuthContext.Provider>

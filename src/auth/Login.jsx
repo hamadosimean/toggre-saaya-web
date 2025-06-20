@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { Eye, EyeOff } from "lucide-react";
 import userApi from "../services/user";
 import PopUp from "../components/ui/PopUp";
-import { Eye, EyeOff } from "lucide-react";
+import Loader from "../components/ui/Loader";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -15,12 +17,13 @@ function Login() {
   const [showPopUp, setShowPopUp] = useState(false);
 
   const navigate = useNavigate();
+  const { isAuthenticated, loading, login } = useAuth();
 
-  // Redirect if already logged in
   useEffect(() => {
-    const token = localStorage.getItem("auth_token");
-    if (token) navigate("/dashboard", { replace: true });
-  }, [navigate]);
+    if (!loading && isAuthenticated) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [loading, isAuthenticated, navigate]);
 
   const togglePasswordVisibility = () => {
     const newValue = !showPassword;
@@ -30,17 +33,22 @@ function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    localStorage.removeItem("auth_token");
 
     try {
       const response = await userApi.login(username, password);
+      const authToken = response.data.auth_token;
 
+      // Save token depending on rememberMe
       if (rememberMe) {
-        localStorage.setItem("auth_token", response.data.auth_token);
+        localStorage.setItem("auth_token", authToken);
       } else {
-        sessionStorage.setItem("auth_token", response.data.auth_token);
+        sessionStorage.setItem("auth_token", authToken);
       }
 
+      // Update context state
+      login(authToken);
+
+      // Redirect to dashboard
       navigate("/dashboard", { replace: true });
     } catch (err) {
       const message =
@@ -51,6 +59,15 @@ function Login() {
       setShowPopUp(true);
     }
   };
+
+  // console.log("isAuthenticated:", isAuthenticated);
+  // console.log("token:", localStorage.getItem("auth_token"));
+  // console.log("loading:", loading);
+
+  // Optional loading UI
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
