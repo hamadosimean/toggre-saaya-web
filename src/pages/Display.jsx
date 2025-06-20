@@ -14,6 +14,7 @@ function Display() {
   const [loading, setLoading] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const displayRef = useRef(null);
+  const [error, setError] = useState(null);
 
   // Fetch queues
   useEffect(() => {
@@ -47,7 +48,7 @@ function Display() {
 
         setServicesWithQueue(servicesWithQueueData);
       } catch (error) {
-        console.error("Error fetching displayed services:", error);
+        setError(error.message);
         setServicesWithQueue([]);
       } finally {
         setLoading(false);
@@ -97,7 +98,9 @@ function Display() {
       {/* No Services */}
       {!loading && servicesWithQueue.length === 0 && (
         <p className="text-center text-gray-400">
-          <ShowError error={"Aucun service non disponible pour le moment."} />
+          <ShowError
+            error={("Aucun service n'est disponible pour le moment.", error)}
+          />
         </p>
       )}
 

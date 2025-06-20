@@ -4,6 +4,9 @@ const queueAPI = {
   getSlotList: (userId, serviceId) =>
     apiClient.get(`/user/${userId}/company-service/${serviceId}/slot`),
 
+  reserveSlot: (userId, serviceId) =>
+    apiClient.post(`/user/${userId}/company-service/${serviceId}/slot`),
+
   getSlotDetail: (userId, serviceId, slotId) =>
     apiClient.get(
       `/user/${userId}/company-service/${serviceId}/slot/${slotId}`
