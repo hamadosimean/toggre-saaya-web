@@ -23,9 +23,9 @@ const queueAPI = {
       `/user/${userId}/company-service/${serviceId}/current-next-queue`
     ),
 
-  performAction: (userId, serviceId, slotId, data) =>
-    apiClient.post(
-      `/user/${userId}/company-service/${serviceId}/slot/${slotId}/action`,
+  performAction: (userId, serviceId, data) =>
+    apiClient.patch(
+      `/user/${userId}/company-service/${serviceId}/slot-action`,
       data
     ),
 };

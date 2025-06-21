@@ -28,6 +28,7 @@ function NavBar() {
     { name: "Contact", path: "/contact" },
     isAuthenticated && { name: "Tableau de bord", path: "/dashboard" },
     !isAuthenticated && { name: "Connexion", path: "/login" },
+    !isAuthenticated && { name: "Inscription", path: "/register" },
   ].filter(Boolean); // Remove null/false entries
 
   return (

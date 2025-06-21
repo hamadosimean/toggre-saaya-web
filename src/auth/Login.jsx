@@ -37,13 +37,16 @@ function Login() {
     try {
       const response = await userApi.login(username, password);
       const authToken = response.data.auth_token;
-
-      localStorage.removeItem("auth_token");
-      sessionStorage.removeItem("auth_token");
-
+      if (localStorage.getItem("auth_token")) {
+        localStorage.removeItem("auth_token");
+      }
+      if (sessionStorage.getItem("auth_token")) {
+        sessionStorage.removeItem("auth_token");
+      }
       if (rememberMe) {
         localStorage.setItem("auth_token", authToken);
       } else {
+        localStorage.setItem("auth_token", authToken);
         sessionStorage.setItem("auth_token", authToken);
       }
 

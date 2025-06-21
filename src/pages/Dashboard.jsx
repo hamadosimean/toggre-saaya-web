@@ -8,6 +8,7 @@ import {
   ZapIcon,
   Server,
   Building,
+  PieChart,
 } from "lucide-react";
 function Dashboard() {
   const navItems = [
@@ -35,6 +36,11 @@ function Dashboard() {
       path: "/dashboard/display",
       label: "Affichage",
       icon: <View size={20} />,
+    },
+    {
+      path: "/dashboard/statistics",
+      label: "Statistiques",
+      icon: <PieChart size={20} />,
     },
     {
       path: "/dashboard/settings",

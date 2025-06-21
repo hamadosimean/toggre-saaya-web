@@ -1,6 +1,6 @@
 import axios from "axios";
 import authConfig from "./authConfig";
-
+import Config from "./config";
 const API = axios.create({
   baseURL: authConfig.BASE_URL,
   headers: {
@@ -11,7 +11,15 @@ const API = axios.create({
 const userApi = {
   // Register a new user
   register: (username, password, email) =>
-    API.post("/users/", { username, password, email }),
+    axios.post(
+      `${Config.DEV_URL}/register`,
+      { username, password, email },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ),
 
   // Login and get auth token
   login: (username, password) =>

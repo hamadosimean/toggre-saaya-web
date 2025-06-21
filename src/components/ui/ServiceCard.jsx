@@ -4,7 +4,7 @@ import Button from "./Button";
 
 function ServiceCard({ id, display, name, description, onUpdate, onDelete }) {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-all">
+    <div className="bg-white p-6 rounded-xl shadow-md  border-blue-600 border-2 hover:shadow-lg transition-all">
       <h2 className="text-xl font-semibold text-blue-800 mb-2">{name}</h2>
       <p className="text-sm text-gray-600 mb-4">{description}</p>
 

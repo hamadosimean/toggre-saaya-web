@@ -1,27 +1,28 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import queueAPI from "../../services/queueAPI";
 import QueueDisplay from "./QueueDisplay";
 
 function QueueCard({ service, description, userId, serviceId }) {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [queueNumber, setQueueNumber] = useState(null);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ text: "", isError: false });
 
   const handleReserveQueue = async () => {
-    if (loading) return;
+    if (isLoading) return;
 
-    setLoading(true);
-    setMessage("");
+    setIsLoading(true);
+    setMessage({ text: "", isError: false });
 
     try {
       const response = await queueAPI.reserveSlot(userId, serviceId);
       setQueueNumber(response.data.number);
-      setMessage("✅ Réservation réussie !");
+      setMessage({ text: "✅ Réservation réussie !", isError: false });
     } catch (error) {
       console.error("Erreur de réservation:", error);
-      setMessage("❌ Échec de la réservation");
+      setMessage({ text: "❌ Échec de la réservation", isError: true });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -29,27 +30,33 @@ function QueueCard({ service, description, userId, serviceId }) {
     <>
       <button
         onClick={handleReserveQueue}
-        disabled={loading}
-        className={`w-full text-left bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition duration-200 ${
-          loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"
-        }`}
+        disabled={isLoading}
+        aria-busy={isLoading}
+        className={`
+          w-full text-left rounded-xl px-6 py-5 border-2 border-blue-600 
+          bg-white shadow-md hover:shadow-lg transition duration-200
+          ${isLoading ? "cursor-not-allowed opacity-70" : "cursor-pointer"}
+        `}
       >
-        <div className="mb-2">
-          <h3 className="text-xl font-semibold text-blue-800">{service}</h3>
-          <p className="text-sm text-gray-600">{description}</p>
+        {/* Service Info */}
+        <div className="mb-3">
+          <h3 className="text-xl font-bold text-blue-800">{service}</h3>
+          <p className="text-sm text-gray-600 mt-1">{description}</p>
         </div>
 
-        {message && (
+        {/* Message */}
+        {message.text && (
           <p
-            className={`mt-3 text-sm ${
-              message.includes("Réussie") ? "text-green-600" : "text-red-600"
+            className={`mt-2 text-sm ${
+              message.isError ? "text-red-600" : "text-green-600"
             }`}
           >
-            {message}
+            {message.text}
           </p>
         )}
       </button>
 
+      {/* Queue Display */}
       {queueNumber && (
         <QueueDisplay
           queueNumber={queueNumber}
@@ -60,5 +67,13 @@ function QueueCard({ service, description, userId, serviceId }) {
     </>
   );
 }
+
+QueueCard.propTypes = {
+  service: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  serviceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+};
 
 export default QueueCard;

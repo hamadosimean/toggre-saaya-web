@@ -26,6 +26,7 @@ function Service() {
     } catch (err) {
       setError(err.message || "Une erreur est survenue.");
       setServices([]);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -58,17 +59,20 @@ function Service() {
       await serviceAPI.deleteService(user.id, selectedService.id);
       await fetchServices();
     } catch (err) {
-      <PopUp
-        message={`"Erreur de suppression", ${err.message}`}
-        type="error"
-      />;
+      setError(err.message || "Une erreur est survenue.");
+      <PopUp message={`"Erreur de suppression", ${error}`} type="error" />;
     } finally {
       setShowConfirmation(false);
       setSelectedService(null);
     }
   };
 
-  if (loading) return <Loader />;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
   // if (error) return <PO error={error} />;
 
   return (

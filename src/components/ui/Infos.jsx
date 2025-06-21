@@ -5,7 +5,7 @@ function Infos({ info }) {
 
   return (
     <div className="relative bg-black w-full h-[60px] overflow-hidden mb-4 flex items-center rounded-md">
-      <div className="absolute whitespace-nowrap animate-marquee text-white  font-bold px-6 text-2xl md:text-4xl">
+      <div className="absolute whitespace-nowrap animate-marquee text-white  font-bold px-6 text-2xl md:text-3xl">
         {info}
       </div>
 

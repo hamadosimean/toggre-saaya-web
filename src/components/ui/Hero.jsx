@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router";
 function Hero() {
   return (
     <section className="bg-gray-100 min-h-screen flex items-center justify-center px-6 md:px-20 py-16">
@@ -18,9 +18,12 @@ function Hero() {
         </p>
 
         <div className="mt-8">
-          <button className="px-6 py-3 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition duration-300">
-            Réserver maintenant
-          </button>
+          <Link
+            to="/register"
+            className="px-6 py-3 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition duration-300"
+          >
+            Esssayer maintenant
+          </Link>
         </div>
       </div>
     </section>
