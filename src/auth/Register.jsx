@@ -81,7 +81,7 @@ function Register() {
         className="bg-white p-6 rounded-lg shadow-md w-full max-w-md"
       >
         <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">
-          Create Account
+          Création de compte
         </h2>
 
         <div className="space-y-4">
@@ -113,7 +113,9 @@ function Register() {
           </div>
 
           <div className="relative">
-            <label className="block text-sm font-medium mb-1">Password*</label>
+            <label className="block text-sm font-medium mb-1">
+              Mot de passe *
+            </label>
             <input
               name="password"
               type={showPassword ? "text" : "password"}
@@ -135,7 +137,7 @@ function Register() {
 
           <div>
             <label className="block text-sm font-medium mb-1">
-              Confirm Password*
+              Confirmer votre mot de passe*
             </label>
             <input
               name="confirmPassword"
