@@ -10,7 +10,7 @@ function CompanyCard({ company, onEdit, onDelete }) {
       <div className="flex gap-2 mt-4">
         <button
           onClick={onEdit}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded"
+          className="bg-blue-500 hover:bg-blue-800 text-white py-1 px-3 rounded"
         >
           Modifier
         </button>
