@@ -15,35 +15,39 @@ function ActionServiceDetailCard() {
   const [error, setError] = useState(null);
   const [showPopUp, setShowPopUp] = useState(false);
   const [currentQueue, setCurrentQueue] = useState(null);
+  const [waitingCount, setWaitingCount] = useState(null);
 
   const fetchQueueData = async (userId, serviceId) => {
     try {
       const queueRes = await queueAPI.getCurrentAndNext(userId, serviceId);
-      setCurrentQueue(queueRes.data.current);
+      setCurrentQueue(queueRes.data.current ?? null);
+
+      const waitingRes = await queueAPI.getWaitingCount(userId, serviceId);
+      setWaitingCount(waitingRes.data.count ?? 0);
     } catch (err) {
-      setError("Failed to fetch queue.");
+      setError("Échec de la récupération de la file d'attente.");
       setShowPopUp(true);
       console.error(err);
     }
   };
 
   useEffect(() => {
-    const fetchActionService = async () => {
+    const fetchServiceData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await serviceAPI.getDisplayedServices(user.id);
-        const service = response.data.find((s) => s.id == id);
-        if (!service) {
-          setError("Service not found.");
+        const res = await serviceAPI.getDisplayedServices(user.id);
+        const found = res.data.find((s) => String(s.id) === String(id));
+        if (!found) {
+          setError("Service introuvable.");
           setShowPopUp(true);
           return;
         }
 
-        setActionService(service);
-        await fetchQueueData(user.id, service.id);
+        setActionService(found);
+        await fetchQueueData(user.id, found.id);
       } catch (err) {
-        setError("Failed to fetch service. Please try again.");
+        setError("Échec de la récupération du service.");
         setShowPopUp(true);
         console.error(err);
       } finally {
@@ -51,24 +55,19 @@ function ActionServiceDetailCard() {
       }
     };
 
-    fetchActionService();
+    fetchServiceData();
   }, [user.id, id]);
 
   const handlePerformAction = async (status) => {
     try {
       await queueAPI.performAction(user.id, actionService.id, { status });
-      console.log(`${status} action performed`);
       await fetchQueueData(user.id, actionService.id);
     } catch (err) {
-      setError(`Échec de l'action '${status}'.`);
+      setError(`Échec de l'action : ${status}`);
       setShowPopUp(true);
       console.error(err);
     }
   };
-
-  const handleNext = () => handlePerformAction("called"); // Suivant
-  const handleCancelled = () => handlePerformAction("canceled"); // Annuler
-  const handleCalled = () => handlePerformAction("called"); // Appelle
 
   if (loading) return <Loader />;
   if (!actionService) return null;
@@ -85,16 +84,25 @@ function ActionServiceDetailCard() {
 
       {/* Header */}
       <div className="flex justify-between items-center p-8 bg-black rounded-lg mb-6 h-28">
-        <h1 className="text-4xl font-bold text-white">{actionService.name}</h1>
-        <span className="text-red-500 font-extrabold text-4xl">
+        <div>
+          <h1 className="text-4xl font-bold text-white">
+            {actionService.name}
+          </h1>
+          {waitingCount !== null && (
+            <p className="text-white text-lg mt-2">
+              En attente : {waitingCount}
+            </p>
+          )}
+        </div>
+        <span className="text-red-500 font-extrabold text-5xl">
           {currentQueue ?? "—"}
         </span>
       </div>
 
-      {/* Buttons */}
+      {/* Action Buttons */}
       <div className="flex flex-col gap-6 flex-grow justify-center">
         <button
-          onClick={handleNext}
+          onClick={() => handlePerformAction("called")}
           className="w-full bg-blue-600 text-white py-8 rounded-2xl text-4xl font-bold shadow hover:bg-blue-700 transition"
         >
           Suivant
@@ -102,14 +110,13 @@ function ActionServiceDetailCard() {
 
         <div className="flex gap-6">
           <button
-            onClick={handleCancelled}
+            onClick={() => handlePerformAction("canceled")}
             className="w-1/2 bg-red-600 text-white py-8 rounded-2xl text-4xl font-bold shadow hover:bg-red-700 transition"
           >
             Annuler
           </button>
-
           <button
-            onClick={handleCalled}
+            onClick={() => handlePerformAction("called")}
             className="w-1/2 bg-green-600 text-white py-8 rounded-2xl text-4xl font-bold shadow hover:bg-green-700 transition"
           >
             Appelle

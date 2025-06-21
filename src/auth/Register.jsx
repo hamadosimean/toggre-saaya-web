@@ -19,14 +19,15 @@ function Register() {
 
   const validate = () => {
     const newErrors = {};
-    if (!form.username.trim()) newErrors.username = "Username required";
-    if (!form.email.trim()) newErrors.email = "Email required";
+    if (!form.username.trim()) newErrors.username = "Nom d'utilisateur requis";
+    if (!form.email.trim()) newErrors.email = "Adresse email requise";
     else if (!/^\S+@\S+\.\S+$/.test(form.email))
-      newErrors.email = "Invalid email";
-    if (!form.password) newErrors.password = "Password required";
-    else if (form.password.length < 6) newErrors.password = "Min 6 characters";
+      newErrors.email = "Adresse email invalide";
+    if (!form.password) newErrors.password = "Mot de passe requis";
+    else if (form.password.length < 6)
+      newErrors.password = "Au moins 6 caractères requis";
     if (form.password !== form.confirmPassword)
-      newErrors.confirmPassword = "Passwords don't match";
+      newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
     return newErrors;
   };
 
@@ -53,13 +54,15 @@ function Register() {
       });
 
       setMessage({
-        text: "Registration successful! Redirecting...",
+        text: "Inscription réussie ! Redirection...",
         type: "success",
       });
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       const errorMessage =
-        error.message || error.response?.data?.error || "Registration failed";
+        error.message ||
+        error.response?.data?.error ||
+        "Échec de l'inscription";
       setMessage({ text: errorMessage, type: "error" });
     } finally {
       setIsLoading(false);
@@ -86,7 +89,9 @@ function Register() {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Username*</label>
+            <label className="block text-sm font-medium mb-1">
+              Nom d'utilisateur*
+            </label>
             <input
               name="username"
               value={form.username}
@@ -114,7 +119,7 @@ function Register() {
 
           <div className="relative">
             <label className="block text-sm font-medium mb-1">
-              Mot de passe *
+              Mot de passe*
             </label>
             <input
               name="password"
@@ -137,7 +142,7 @@ function Register() {
 
           <div>
             <label className="block text-sm font-medium mb-1">
-              Confirmer votre mot de passe*
+              Confirmez le mot de passe*
             </label>
             <input
               name="confirmPassword"
@@ -159,7 +164,7 @@ function Register() {
             isLoading ? "opacity-70 cursor-not-allowed" : ""
           }`}
         >
-          {isLoading ? "Processing..." : "Register"}
+          {isLoading ? "Traitement en cours..." : "S'inscrire"}
         </button>
       </form>
     </div>
